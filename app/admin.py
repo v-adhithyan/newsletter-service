@@ -1,6 +1,11 @@
 from django.contrib import admin
 from .models import Topic, Content, User
+
+admin.site.site_header = "Newsletter Service Administration"
+admin.site.site_title = "Newsletter Service Admin"
+admin.site.index_title = "Welcome to Newsletter Service Administration"
+
 # Register your models here.
-# admin.site.register(Topic)
-# admin.site.register(Content)
-# admin.site.register(User)
+admin.site.register(Topic)
+admin.site.register(Content)
+admin.site.register(User)
