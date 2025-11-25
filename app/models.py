@@ -15,16 +15,17 @@ class Content(models.Model):
     send_at = models.DateTimeField(auto_now_add=False, blank=False, null=False)
     is_sent = models.BooleanField(default=False)
     sent_at = models.DateTimeField(auto_now_add=False, blank=True, null=True)
+    recipients = models.ManyToManyField('Subscriber', blank=True, related_name='recipients')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.topic} - {self.text}'
+        return f'{self.topic} - {self.text[:40]}'
 
 
-class User(models.Model):
+class Subscriber(models.Model):
     email = models.EmailField(unique=True, blank=False, null=False)
-    topic = models.OneToOneField(Topic, on_delete=models.PROTECT)
+    topic = models.ForeignKey(Topic, on_delete=models.PROTECT, related_name='subscribers')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
