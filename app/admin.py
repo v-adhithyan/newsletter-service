@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from .forms import ContentAdminForm
 from .models import Topic, Subscriber, Content
 
 admin.site.site_header = "Newsletter Service Administration"
@@ -40,10 +39,11 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    form = ContentAdminForm
     list_display = ('id', 'topic', 'text', 'send_at', 'is_sent')
     list_filter = ('topic', 'is_sent')
     search_fields = ('topic', 'text')
+    # hide certain fields in form
+    exclude = ('is_sent', 'sent_at',)
 
     # when send newsletter email action is clicked in topic admin,
     # we redirect to this with params containing topic id,
