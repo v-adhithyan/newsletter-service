@@ -29,6 +29,7 @@ class Command(BaseCommand):
                 newsletter.is_sent = True
                 newsletter.sent_at = now
                 newsletter.save()
+                continue
 
             subject = f"Newsletter - # {topic.name}"
             body = newsletter.text

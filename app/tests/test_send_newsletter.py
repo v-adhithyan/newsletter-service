@@ -145,5 +145,5 @@ def test_no_pending_content_prints_message(capfd, send_mail_spy):
 
     # capture stdout
     out, err = capfd.readouterr()
-    assert "No pending content" in out
+    assert "No pending newsletters found." in out
     assert len(send_mail_spy) == 0
