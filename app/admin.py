@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, User
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
@@ -53,7 +52,4 @@ class ContentAdmin(admin.ModelAdmin):
         topic = request.GET.get('topic')
         if topic:
             initial['topic'] = topic
-            topic_obj = get_object_or_404(Topic, id=topic)
-            recipient_ids = topic_obj.subscribers.values_list('id', flat=True)
-            initial['recipients'] = recipient_ids
         return initial

@@ -15,7 +15,6 @@ class Content(models.Model):
     send_at = models.DateTimeField(auto_now_add=False, blank=False, null=False)
     is_sent = models.BooleanField(default=False)
     sent_at = models.DateTimeField(auto_now_add=False, blank=True, null=True)
-    recipients = models.ManyToManyField('Subscriber', blank=True, related_name='recipients')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
