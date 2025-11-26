@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group, User
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.html import format_html
@@ -13,6 +14,11 @@ admin.site.index_title = "Welcome to Newsletter Service Administration"
 
 # Register your models here.
 admin.site.register(Subscriber)
+
+# these models are by default displayed in admin, we don't need this
+# so manually removing them from admin
+admin.site.unregister(Group)
+admin.site.unregister(User)
 
 
 @admin.register(Topic)
