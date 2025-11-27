@@ -114,5 +114,6 @@ newsletter-service/
 ## REST Endpoints
 
 - Apart from UI based access, content, topic and subscribers can be created using REST endpoints also. List of REST endpoints can be viewed at https://pyadhi.pythonanywhere.com/api and 3 endpoint listed can be further clicked to view, create, list, delete and update objects.
+- The endpoints also does input validation and throw appropriate errors.
 - The above REST endpoint can also be tested using postman using Basic authentication (admin credentials)
 
