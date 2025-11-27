@@ -4,3 +4,4 @@ dotenv==0.9.9
 pytest
 pytest-django
 factory_boy==3.3.3
+djangorestframework
