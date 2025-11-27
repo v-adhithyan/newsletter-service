@@ -32,9 +32,12 @@ App is live in https://pyadhi.pythonanywhere.com/admin/ and the admin panel can 
 
 - My goal was to keep everything simple. This is because since this project also needs to be deployed, having many moving parts like database, cache or message queues will be too complex for now.
 - SQLite is used as the primary source of truth because it is light weight and can be created inside the server where the app is running. If we opt for postgres or mysql, we need to use cloud providers when the app gets deployed.
+- Based on the assumption data will always be structured in this project, NOSQL is not used.
+- The goal was to write minimal boiler plate code by making heavy use of Django default features and the total custom lines of code added is within 200. This is the reason behind choosing Python & Django because it allows to create production ready prototypes in a very quick period.
 
 ## How the app works?
 
+- The app has 3 db tables that are mapped to Python models Topic, Content and Subscriber.
 - We need to create topic first. Topic can be created by visiting this url (https://pyadhi.pythonanywhere.com/admin/app/topic/)
 - After creating topic, we need to add subscribers who are listening to that topic. Subscribers can be added using the url https://pyadhi.pythonanywhere.com/admin/app/subscriber/
 - Once atleast one topic and one subscriber is added in the system, we can start creating content which will be used to send email.
@@ -51,8 +54,13 @@ App is live in https://pyadhi.pythonanywhere.com/admin/ and the admin panel can 
 - No monitoring is added.
 - Emails that are sent successfully and emails that failed are also not logged. Currently this can be inferred from is_sent & sent_at fields of Content table.
 - The app can also be dockerized with postgres/mysql, message queue, background job runner. But it requires us to use aws or gcp which further increases complexity.
+- Retry mechanism is not robust. If a content fails n time, we need to prevent that from being retried. But this is not being done currently. Retry sending failed content is currently infinite.
 
 ## How to scale this?
+
+- Since moving parts are very less, the app will be able to handle fair amount of traffic without any changes in the existing deployment setup. The current app is vertically scalable. But we need the following to make the app horizontally scalable.
+- We can add a message queue (Django celery). Whenever we add a content, a message can be pushed to queue. The consumer will pick up the message and decide whether to send or not. Using message queues will make our app more extensible when we want to introduce any other background jobs apart from email sending in future. This will also improve our retry mechanism which can be configured in message queues and if a content fails repeatedly we can add it to dead letter queue after n retries for later analysis.
+- SQLite is also not scalable. We need to use proper SQL database  like postgres. The current project will work with postgres without any actual code changes. We just need to migrate data and change the connection details.
 
 ## REST Endpoints
 
